@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modelo.xhtml">
+	
+	<ui:define name="contenido">
+		<p:growl id="menssage"/>
+		
+		<f:metadata>
+		
+		</f:metadata>
+			
+		<h:form id="frmPlan">
+			<p:panel>
+				<f:facet name="header">
+					<p:outputLabel value="Bienvenido #{autenticacionBean.usuarioLogin.persona.nombre}" />
+					<h:commandLink >
+						<p:graphicImage library="images" name="excel.png" width="24" styleClass="excel"/>
+						<p:dataExporter type="xls" target="tblPlan" fileName="gerentes_comision" />
+					</h:commandLink>
+	
+					<h:commandLink>
+						<p:graphicImage library="images" name="csv.png" width="24" styleClass="cvs" />
+						<p:dataExporter type="csv" target="tblPlan" fileName="gerentes_comision" />
+					</h:commandLink>
+				</f:facet>
+
+	 		<p:dataTable styleClass="tblPla" id="tblPlan"
+					emptyMessage="No se encontraron registros" value="#{activoBean.listaActivo}" var="ac"
+					>
+					
+					<f:facet name="header">
+						Lista de Proyectos
+					</f:facet>
+					
+	 			    <p:columnGroup type="header">
+			            <p:row>
+			            	<p:column colspan="1" headerText="Nombre" width="10%"/>
+			            	<p:column colspan="1" headerText="Descripción" width="10%"/>
+			            	<p:column colspan="1" headerText="Tipo" width="7%"  />
+			            	<p:column colspan="1" headerText="Serial " width="10%"/>
+			            	<p:column colspan="1" headerText="N° Inventario" width="8%"/>
+			            	<p:column colspan="1" headerText="Peso " width="8%" />
+			            	<p:column colspan="1" headerText="Alto" width="8%" />
+			            	<p:column colspan="1" headerText="Ancho" width="8%" />
+			            	<p:column colspan="1" headerText="Largo" width="8%"/>
+			            	<p:column colspan="1" headerText="Valor" width="8%"/>
+			            	<p:column colspan="1" headerText="Fecha Compra" width="8%"/>
+			            	<p:column colspan="1" headerText="Fecha de Baja" width="8%"/>
+			            	<p:column colspan="1" headerText="Estado" width="8%"/>
+			            	<p:column colspan="1" headerText="Color" width="8%"/>
+			            	<p:column colspan="1" headerText="Area" width="8%"/>
+			            	<p:column colspan="1" headerText="Persona" width="8%"/>
+			            	<p:column colspan="1" headerText="Acciones" width="9%" style="text-align:center"/>
+			           </p:row>
+			        </p:columnGroup> 
+			        
+			        <p:column headerText="Item" >
+						<h:outputText value="#{ac.nombre}" />
+					</p:column>
+					
+				    <p:column headerText="nombre" >
+						<h:outputText value="#{ac.descripcion}" />
+					</p:column>
+					
+					<p:column headerText="Descripcion" >
+						<h:outputText value="#{ac.tipo.descripcion}" />
+					</p:column>
+					
+					<p:column headerText="Area" >
+						<h:outputText value="#{ac.serial}" />
+					</p:column>
+					
+					<p:column headerText="Representante " >
+						<h:outputText value="#{ac.numero}" />
+					</p:column>
+					
+					<p:column headerText="Fecha ini" >
+						<h:outputText value="#{ac.peso}" />
+					</p:column>
+					
+					<p:column headerText="valor" >
+						<h:outputText value="#{ac.alto}">
+							
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="ROI" >
+						<h:outputText value="#{ac.ancho}" />
+					</p:column>
+					
+					<p:column headerText="TIR" >
+						<h:outputText value="#{ac.largo}" />
+					</p:column>					
+					
+					<p:column headerText="Prioridad" >
+						<h:outputText value="#{ac.valorCompra}" />
+					</p:column>
+					
+					<p:column headerText="Estado" >
+						<h:outputText value="#{ac.fechaCompra}" />
+					</p:column>
+					
+					<p:column headerText="Estado" >
+						<h:outputText value="#{ac.fechaBaja}" />
+					</p:column>
+					
+					<p:column headerText="Estado" >
+						<h:outputText value="#{ac.estado.descripcion}" />
+					</p:column>
+					
+					<p:column headerText="Estado" >
+						<h:outputText value="#{ac.color}" />
+					</p:column>
+					
+					<p:column headerText="Estado" >
+						<h:outputText value="#{ac.area.descripcion}" />
+					</p:column>
+					
+					<p:column headerText="Estado" >
+						<h:outputText value="#{ac.persona.nombre}" />
+					</p:column>
+					
+					
+					<p:column headerText="Acciones">
+						<p:commandButton icon="ui-icon-pencil"
+							action ="#{activoBean.editar(ac)}"
+							update=":menssage :frmNuePro:pnlNuePro"
+							oncomplete="PF('dlgNue').show();" title="Editar">
+							<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						</p:commandButton>
+						
+						<p:commandButton icon="ui-icon-trash" actionListener="#{activoBean.borrar(ac)}"
+							update=" :menssage :frmNuePro:pnlNuePro  :frmPlan:tblPlan" title="Borrar">
+							<p:confirm header="Confirmar"
+								message="Desea borrar El Proyecto?" icon="ui-icon-alert" />
+						</p:commandButton>						
+					</p:column>
+					
+					<f:facet name="footer">
+						<p:commandButton value="Nuevo Proyecto" style="height:35px" 
+							oncomplete="PF('dlgNue').show();" actionListener="#{activoBean.preparar()}"
+							update=":frmNuePro:pnlNuePro" >
+							<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						</p:commandButton>					
+						
+					</f:facet>
+				</p:dataTable>
+				
+				<p:confirmDialog global="true">
+					<p:commandButton value="Si" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update=":frmPlan:tblPlan" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog> 
+			</p:panel>
+		</h:form>
+		
+		<p:dialog header="Crear Nuevo Proyecto" widgetVar="dlgNue" draggable="false" 
+				resizable="false"  closable="true" appendTo="@(body)" modal="false" >
+			<h:form id="frmNuePro" enctype="multipart/form-data">
+				<h:panelGrid columns="4" id="pnlNuePro">
+					
+					<p:outputLabel  value="Nombre:" />
+					<p:inputText  size="30" maxlength="50" 
+						value="#{activoBean.activo.nombre}" required="true" requiredMessage="Campo Nombre es obligatorio"/>
+					
+					<p:outputLabel  value="Descripcion" />
+					<p:inputTextarea  cols="31"  rows="3" autoResize="false"
+						value="#{activoBean.activo.descripcion}" required="true" requiredMessage="Campo Descripcion es obligatorio"/>
+					
+					<p:outputLabel for="estado" value="Estado: " />
+					<p:selectOneMenu id="estado" filter="true" style="width:322px"
+						value="#{activoBean.activo.estado}"
+						converter="omnifaces.SelectItemsConverter" required="true"
+						requiredMessage="Campo Estado es obligatorio">
+						<f:selectItem noSelectionOption="true" itemLabel="Seleccione el Estado"/>
+						<f:selectItems value="#{activoBean.listaEstado}" var="estado"
+							itemValue="#{estado}" itemLabel="#{estado.descripcion}" />
+					</p:selectOneMenu>	
+					
+					<p:outputLabel  value="Serial" />
+					<p:inputText  size="30" maxlength="50"  
+						value="#{activoBean.activo.serial}" required="true" requiredMessage="Campo Area es obligatorio"/>
+					
+					<p:outputLabel  value="N inventario" />
+					<p:inputText  size="30" maxlength="50" 
+						value="#{activoBean.activo.numero}" required="true" requiredMessage="Campo Responsable es obligatorio"/>
+					
+					<p:outputLabel  value="Peso " />
+					<p:inputText  size="30" 
+						value="#{activoBean.activo.peso}" required="true" requiredMessage="Campo Valor es obligatorio" 
+						converterMessage="Este valor es invalido para este campo" 
+						> 
+					</p:inputText>
+					
+					<p:outputLabel  value="Alto" />
+					<p:inputText  size="30" maxlength="50" 
+						value="#{activoBean.activo.alto}" required="true" requiredMessage="Campo Responsable es obligatorio"/>
+					
+					<p:outputLabel  value="Ancho" />
+					<p:inputText  size="30" maxlength="50" 
+						value="#{activoBean.activo.ancho}" required="true" requiredMessage="Campo Responsable es obligatorio"/>
+					
+					<p:outputLabel  value="Largo" />
+					<p:inputText  size="30" maxlength="50" 
+						value="#{activoBean.activo.largo}" required="true" requiredMessage="Campo Responsable es obligatorio"/>
+					
+					<p:outputLabel  value="Valor" />
+					<p:inputText  size="30" maxlength="50" 
+						value="#{activoBean.activo.valorCompra}" required="true" requiredMessage="Campo Responsable es obligatorio"/>
+					
+					
+					<p:outputLabel  value="Fecha Compra" />
+					<p:calendar  size="30" required="true" requiredMessage="El campo fecha Creación es Obligatorio"
+						value="#{activoBean.activo.fechaCompra}" />
+						
+					<p:outputLabel  value="Fecha de Baja" />
+					<p:calendar  size="30" required="true" requiredMessage="El campo fecha Creación es Obligatorio"
+						value="#{activoBean.activo.fechaBaja}" />	
+					
+					<p:outputLabel for="estado1" value="Tipo: " />
+					<p:selectOneMenu id="estado1" filter="true" style="width:322px"
+						value="#{activoBean.activo.tipo}"
+						converter="omnifaces.SelectItemsConverter" required="true"
+						requiredMessage="Campo Estado es obligatorio">
+						<f:selectItem noSelectionOption="true" itemLabel="Seleccione el Estado"/>
+						<f:selectItems value="#{activoBean.listaTipo}" var="tipo"
+							itemValue="#{tipo}" itemLabel="#{tipo.descripcion}" />
+					</p:selectOneMenu>	
+					
+					<p:outputLabel  value="Color" />
+					<p:inputText  size="30" maxlength="50" 
+						value="#{activoBean.activo.color}" required="true" requiredMessage="Campo Responsable es obligatorio"/>
+					
+					
+					<p:outputLabel for="area" value="Area: " />
+					<p:selectOneMenu id="area" filter="true" style="width:322px"
+						value="#{activoBean.activo.area}"
+						converter="omnifaces.SelectItemsConverter" required="true"
+						requiredMessage="Campo Estado es obligatorio">
+						<f:selectItem noSelectionOption="true" itemLabel="Seleccione el Estado"/>
+						<f:selectItems value="#{activoBean.listaArea}" var="area"
+							itemValue="#{area}" itemLabel="#{area.descripcion} - #{area.ciudad.descripcion}" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel for="per" value="Persona: " />
+					<p:selectOneMenu id="per" filter="true" style="width:322px"
+						value="#{activoBean.activo.persona}"
+						converter="omnifaces.SelectItemsConverter" required="true"
+						requiredMessage="Campo Estado es obligatorio">
+						<f:selectItem noSelectionOption="true" itemLabel="Seleccione el Estado"/>
+						<f:selectItems value="#{activoBean.listaPersona}" var="per"
+							itemValue="#{per}" itemLabel="#{per.nombre}" />
+					</p:selectOneMenu>
+					
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">	
+					<p:commandButton value="Salvar" actionListener="#{activoBean.salvar()}"
+						update=" :menssage :frmNuePro:pnlNuePro  :frmPlan:tblPlan" 
+						/>
+					<p:commandButton value="Cerrar" oncomplete="PF('dlgNue').hide();"
+						 />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+
+</ui:composition>
+</html>

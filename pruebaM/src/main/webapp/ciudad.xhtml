@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+	
+  <ui:define name="contenido">
+  
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Inventario</title>
+</h:head>
+<h:body>
+	<p:growl id="menssage" />
+	<h:form id="frmCiu">
+		<p:panel header="Lista de Ciudades">
+			<p:dataTable id="tblCiu" emptyMessage="No se encontraron registros" paginator="true" 
+				value="#{ciudadBean.ciudades}" var="ciudad" rows="5">
+				
+				<p:column headerText="Nombre" filterBy="#{ciudad.nombre}" sortBy="#{ciudad.nombre}">
+					<h:outputText value="#{ciudad.nombre}" />
+				</p:column>
+				
+				<p:column headerText="Estado" filterBy="#{ciudad.estado.nombre}" sortBy="#{ciudad.estado.nombre}">
+					<h:outputText value="#{ciudad.estado.nombre}" />
+				</p:column>
+				
+				<p:column headerText="Acciones">
+					<p:commandButton icon="ui-icon-trash"  actionListener="#{ciudadBean.borrar}"
+						update=":menssage :frmCiu:tblCiu " >
+						<p:confirm header="Confirmar" message="Desea Borrar La ciudad" 
+							icon="ui-icon-alert"/>
+						<f:attribute name="estadoSeleccionado" value="#{ciudad}"/>	
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon-pencil" actionListener="#{ciudadBean.editar}"
+						update=":menssage  :frmnue:pnlnue" oncomplete="PF('dlgNue').show();">
+						<f:attribute name="ciudadSeleccionado" value="#{ciudad}"/>
+						<f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+				</p:column>
+				
+				<f:facet name="footer">
+					<p:commandButton value="Nuevo" oncomplete="PF('dlgNue').show();" 
+					actionListener="#{ciudadBean.nuevo()}" update=":frmnue:pnlnue :menssage" >
+					<f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+				</f:facet>
+				
+			</p:dataTable>
+			
+			<p:confirmDialog global="true">
+				<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" 
+					icon="ui-icon-check"  />
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+					icon="ui-icon-close" />
+			</p:confirmDialog>
+		</p:panel>
+	</h:form>
+	
+	<p:dialog header="Crear Nueva Ciudad" widgetVar="dlgNue" draggable="false" resizable="false"
+		modal="true" >
+		<h:form id="frmnue">
+			<h:panelGrid columns="2" id="pnlnue">
+				<p:outputLabel for="nombre" value="Nombre" />
+				<p:inputText id="nombre" size="30" maxlength="50"  value="#{ciudadBean.ciudad.nombre}"
+					required="true" requiredMessage="El campo nombre es Obligatorio"/>
+				
+				<p:outputLabel for="est" value="Estado" />
+				<p:selectOneMenu id="est" filter="true" value="#{ciudadBean.ciudad.estado}" 
+					converter="omnifaces.SelectItemsConverter" required="true" 
+					requiredMessage="El campo Estado es Obligatorio">
+					<f:selectItem noSelectionOption="true" itemLabel="Selecione un estado" />
+					<f:selectItems value="#{ciudadBean.estados}" var="estado"
+						itemValue="#{estado}" itemLabel="#{estado.nombre} - #{estado.sigla}" />
+				</p:selectOneMenu>
+				
+				<p:commandButton value="Salvar" actionListener="#{ciudadBean.salvar}"
+					update=":frmCiu:tblCiu :frmnue:pnlnue :menssage" />
+				<p:commandButton value="Cerrar" oncomplete="PF('dlgNue').hide();" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+	</h:body>
+  </ui:define>
+</ui:composition>

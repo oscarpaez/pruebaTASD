@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http//xmlns.jpc.org/xml/ns/javaee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http//xmlns.jpc.org/xml/ns/javaee http/xmlns.jpc.org/xml/ns/javaee/web-app_3_1.xsd http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="3.1">
+  <display-name>pruebaASD</display-name>
+  <welcome-file-list>
+    <welcome-file>proyectos.xhtml</welcome-file>
+  </welcome-file-list>
+  <context-param>
+    <param-name>javax.faces.PROJECT_STAGE</param-name>
+    <param-value>Development</param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.xhtml</url-pattern>
+  </servlet-mapping>
+  <context-param>
+    <param-name>primefaces.THEME</param-name>
+    <param-value>start</param-value>
+  </context-param>
+  
+   <!-- Definiçion de Mecanismo de Upload -->
+  <context-param>
+    <param-name>primefaces.UPLOADER</param-name>
+    <param-value>native</param-value>
+  </context-param>
+    
+    <!-- Cargamento de Hibernate -->
+    <listener>
+    	<listener-class>co.com.pruebaM.util.HibernateContexto</listener-class>
+    </listener>
+</web-app>	 	

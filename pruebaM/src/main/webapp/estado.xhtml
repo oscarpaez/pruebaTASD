@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+	
+  <ui:define name="contenido">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Inventario</title>
+	</h:head>
+	<h:body>
+		<p:growl id="menssage" />
+		<h:form id="frmNueTbl">
+			<p:panel header="Lista de Estados">			
+				<p:dataTable id="tblNue" emptyMessage="No se encontraron registros" paginator="true" 
+					value="#{estadoBean.listaEstodo}" var="estado" rows="10"
+						paginatorPosition="bottom">
+					
+					<p:column headerText="Nombre" sortBy="#{estado.nombre}" filterBy="#{estado.nombre}">
+						<h:outputText value="#{estado.nombre}" />
+					</p:column>
+					
+					<p:column headerText="Sigla" sortBy="#{estado.sigla}" filterBy="#{estado.sigla}">
+						<h:outputText value="#{estado.sigla}" />
+					</p:column>
+					
+					<p:column headerText="Acciones">
+						<p:commandButton icon="ui-icon-trash"  actionListener="#{estadoBean.borrar}"
+							update=":menssage :frmNueTbl:tblNue " >
+							<p:confirm header="Confirmar" message="Desea Borrar el Estado" 
+								icon="ui-icon-alert"/>
+							<f:attribute name="estadoSeleccionado" value="#{estado}"/>	
+						</p:commandButton>
+						<p:commandButton icon="ui-icon-pencil" actionListener="#{estadoBean.editar}"
+							update=":frmNue:pnlNue" oncomplete="PF('dlgNue').show();">
+							<f:attribute name="estadoSeleccionado" value="#{estado}"/>
+						</p:commandButton>
+					</p:column>
+					
+					<f:facet name="footer">
+						<p:commandButton value="Nuevo" actionListener="#{estadoBean.nuevo()}" 
+							oncomplete="PF('dlgNue').show();" update=":frmNue:pnlNue"/>
+					</f:facet>
+					
+				</p:dataTable>
+				
+				<p:confirmDialog global="true">
+					<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" 
+						icon="ui-icon-check"  />
+					<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+						icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:panel>
+		</h:form>
+		
+		<!-- Dialogo crear nuevo estado -->
+		<p:dialog header="Crear Nuevo Estado" widgetVar="dlgNue" draggable="false" resizable="false"
+			modal="true" >
+			<h:form id="frmNue">
+				<p:messages id="msg" showDetail="true" autoUpdate="true" closable="true" />
+				<h:panelGrid columns="2" id="pnlNue">
+					<p:outputLabel value="Nombre" />
+					<p:inputText size="30" maxlength="50" value="#{estadoBean.estado.nombre}"
+						>
+						<p:ajax event="blur" update="@this" />
+					</p:inputText>	
+					
+					<p:outputLabel value="Sigla" />
+					<p:inputText size="30" maxlength="50" value="#{estadoBean.estado.sigla}"
+						>
+						<p:ajax event="blur" update="@this" />
+					</p:inputText>
+						
+					
+					<p:commandButton value="Salvar" actionListener="#{estadoBean.salvar()}"
+						update=":frmNue:msg :frmNueTbl:tblNue " oncomplete="PF('dlgNue').hide();" />
+					<p:commandButton value="Cerrar" oncomplete="PF('dlgNue').hide();"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+	</h:body>
+  </ui:define>
+</ui:composition>
