@@ -29,6 +29,7 @@ import co.com.pruebaM.entyties.Tipo;
 public class ActivoBean implements Serializable{
 
 	private List<Activo> listaActivo;
+	private List<Activo> filtroActivo;
 	private List<Area> listaArea;
 	private List<Persona> listaPersona;
 	private List<Estado> listaEstado;
@@ -178,5 +179,13 @@ public class ActivoBean implements Serializable{
 
 	public void setActivo(Activo activo) {
 		this.activo = activo;
+	}
+
+	public List<Activo> getFiltroActivo() {
+		return filtroActivo;
+	}
+
+	public void setFiltroActivo(List<Activo> filtroActivo) {
+		this.filtroActivo = filtroActivo;
 	}
 }

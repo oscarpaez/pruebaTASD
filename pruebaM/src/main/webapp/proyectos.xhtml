@@ -18,21 +18,13 @@
 		<h:form id="frmPlan">
 			<p:panel>
 				<f:facet name="header">
-					<p:outputLabel value="Bienvenido #{autenticacionBean.usuarioLogin.persona.nombre}" />
-					<h:commandLink >
-						<p:graphicImage library="images" name="excel.png" width="24" styleClass="excel"/>
-						<p:dataExporter type="xls" target="tblPlan" fileName="gerentes_comision" />
-					</h:commandLink>
-	
-					<h:commandLink>
-						<p:graphicImage library="images" name="csv.png" width="24" styleClass="cvs" />
-						<p:dataExporter type="csv" target="tblPlan" fileName="gerentes_comision" />
-					</h:commandLink>
+					<p:outputLabel value="Bienvenido " />
+					
 				</f:facet>
 
 	 		<p:dataTable styleClass="tblPla" id="tblPlan"
 					emptyMessage="No se encontraron registros" value="#{activoBean.listaActivo}" var="ac"
-					>
+					filteredValue="#{activoBean.filtroActivo}">
 					
 					<f:facet name="header">
 						Lista de Proyectos
@@ -40,19 +32,19 @@
 					
 	 			    <p:columnGroup type="header">
 			            <p:row>
-			            	<p:column colspan="1" headerText="Nombre" width="10%"/>
+			            	<p:column colspan="1" headerText="Nombre" width="10%" />
 			            	<p:column colspan="1" headerText="Descripción" width="10%"/>
-			            	<p:column colspan="1" headerText="Tipo" width="7%"  />
-			            	<p:column colspan="1" headerText="Serial " width="10%"/>
+			            	<p:column colspan="1" headerText="Tipo" width="7%"  filterBy="#{ac.tipo}"  filterMatchMode="contains" filterStyle="width:90%"/>
+			            	<p:column colspan="1" headerText="Serial " width="10%" filterBy="#{ac.serial}"  filterMatchMode="contains" filterStyle="width:90%"/>
 			            	<p:column colspan="1" headerText="N° Inventario" width="8%"/>
 			            	<p:column colspan="1" headerText="Peso " width="8%" />
 			            	<p:column colspan="1" headerText="Alto" width="8%" />
 			            	<p:column colspan="1" headerText="Ancho" width="8%" />
 			            	<p:column colspan="1" headerText="Largo" width="8%"/>
 			            	<p:column colspan="1" headerText="Valor" width="8%"/>
-			            	<p:column colspan="1" headerText="Fecha Compra" width="8%"/>
+			            	<p:column colspan="1" headerText="Fecha Compra" width="8%" filterBy="#{ac.fechaCompra}"  filterMatchMode="contains" filterStyle="width:90%"/>
 			            	<p:column colspan="1" headerText="Fecha de Baja" width="8%"/>
-			            	<p:column colspan="1" headerText="Estado" width="8%"/>
+			            	<p:column colspan="1" headerText="Estado" width="8%" filterBy="#{ac.estado}"  filterMatchMode="contains" filterStyle="width:90%"/>
 			            	<p:column colspan="1" headerText="Color" width="8%"/>
 			            	<p:column colspan="1" headerText="Area" width="8%"/>
 			            	<p:column colspan="1" headerText="Persona" width="8%"/>
