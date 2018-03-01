@@ -15,11 +15,14 @@ public class Persona implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long cedula;
 	
 	@Column(length=50)
 	private String nombre;
+	
+	@ManyToOne
+	@JoinColumn(nullable = false)	
+	private Ciudad ciudad;
 	
 
 	public Long getCedula() {
@@ -37,5 +40,12 @@ public class Persona implements Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
+	public Ciudad getCiudad() {
+		return ciudad;
+	}
+
+	public void setCiudad(Ciudad ciudad) {
+		this.ciudad = ciudad;
+	}	
 }

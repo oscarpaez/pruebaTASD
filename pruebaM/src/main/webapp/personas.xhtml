@@ -20,23 +20,19 @@
 	<h:form id="frmPer">
 		<p:panel header="Lista Personas">
 			<p:dataTable id="tblPer" emptyMessage="No se encontraron registros"
-				paginator="true" value="#{personaBean.listaPersona}" var="persona" rows="5"
+				paginator="true" value="#{personaBean.listaPersona}" var="persona" rows="10"
 				paginatorPosition="bottom" >
 				
 				<p:column headerText="Nombre">
 					<h:outputText value="#{persona.nombre}" />
-				</p:column>
-				
-				<p:column headerText="RG">
-					<h:outputText value="#{persona.rg}" />
-				</p:column>
-				
+				</p:column>		
+								
 				<p:column headerText="Cedula">
 					<h:outputText value="#{persona.cedula}" />
 				</p:column>
 				
 				<p:column headerText="Ciudad">
-					<h:outputText value="#{persona.ciudad.nombre}" />
+					<h:outputText value="#{persona.ciudad.descripcion}" />
 				</p:column>
 				
 				<p:column headerText="Acciones">
@@ -86,27 +82,13 @@
 				<p:outputLabel for="nombre" value="Nombre:" />
 				<p:inputText id="nombre" maxlength="50" size="30"
 					value="#{personaBean.persona.nombre}" required="true"
-					requiredMessage="O campo 'Nome' é obrigatório" />
-				
-				<p:outputLabel for="rg" value="RG:"  />
-				<p:inputText id="rg" value="#{personaBean.persona.rg}" size="30"/>
-				
+					requiredMessage="O campo 'Nome' é obrigatório" />	
+					
 				<p:outputLabel for="cedula" value="Cedula:" />
-				<p:inputMask mask="9999999999" id="cedula" value="#{personaBean.persona.cedula}"
-					size="30" required="true" requiredMessage="El campo 'Cedula' es obligatório" />
+				<p:inputMask id="cedula" value="#{personaBean.persona.cedula}"
+					size="30" required="false" requiredMessage="El campo 'Cedula' es obligatório" />				
 				
-				<p:outputLabel for="estado" value="Estado:" />
-				<p:selectOneMenu id="estado" filter="true"
-					converter="omnifaces.SelectItemsConverter" required="true"
-					requiredMessage="El campo 'Estado' es obligatório"
-					value="#{personaBean.estado}" style="width: 320px">
-					<f:selectItem noSelectionOption="true"
-						itemLabel="Selecione un estado" />
-					<f:selectItems value="#{personaBean.listaEstado}" var="estado"
-						itemValue="#{estado}" itemLabel="#{estado.nombre}" />
-					<p:ajax listener="#{personaBean.popular}" update=":frmNue:ciudad"/>	
-				</p:selectOneMenu>
-
+				
 				<p:outputLabel for="ciudad" value="Ciudad:" />
 				<p:selectOneMenu id="ciudad" filter="true" required="true"
 					requiredMessage="El campo 'Ciudad' es obligatório"
@@ -115,54 +97,15 @@
 					<f:selectItem noSelectionOption="true"
 						itemLabel="Selecione una ciudad" />
 					<f:selectItems value="#{personaBean.listaCiudad}" var="ciudad"
-						itemValue="#{ciudad}" itemLabel="#{ciudad.nombre}" />
+						itemValue="#{ciudad}" itemLabel="#{ciudad.descripcion}" />
 				</p:selectOneMenu>
+			</h:panelGrid>	
 				
-				<p:outputLabel for="rua" value="Rua:" />
-				<p:inputText id="rua" maxlength="100" size="30"
-					value="#{personaBean.persona.rua}" required="true"
-					requiredMessage="El campo 'Rua' es obligatorio" />
-
-				<p:outputLabel value="Número" />
-				<p:inputText maxlength="5" size="30"
-					value="#{personaBean.persona.numero}" required="true"
-					requiredMessage="El campo 'Número' es obligatorio"
-					converterMessage="Ingrese un valor válido para el campo 'Número'"
-					validatorMessage="Ingrese un valor entre 1 e 99999 para el campo 'Número'">
-					<f:validateLongRange minimum="1" maximum="99999" />
-				</p:inputText>	
-
-				<p:outputLabel for="barrio" value="Barrio:" />
-				<p:inputText id="barrio" maxlength="30" size="30"
-					value="#{personaBean.persona.barrio}" required="true"
-					requiredMessage="El campo 'Barrio' es obligatório" />
-					
-				<p:outputLabel for="cep" value="CEP:" />
-				<p:inputText id="cep" value="#{personaBean.persona.cep}" size="30"/>
-				
-				<p:outputLabel for="complemento" value="Complemento:" />
-				<p:inputText id="complemento" maxlength="10" size="30"
-					 value="#{personaBean.persona.complemento}"/>
-					
-				<p:outputLabel for="telefono" value="Telefono:" />
-				<p:inputMask id="telefono" value="#{personaBean.persona.telefono}"
-					mask="999-9999" size="30" />
-				
-				<p:outputLabel for="celular" value="Celular:" />
-				<p:inputMask id="celular" value="#{personaBean.persona.celular}"
-					mask="99-99-9999" size="30" />
-				
-				<p:outputLabel for="email" value="Email:" />
-				<p:inputText id="email" maxlength="100" size="30"
-					value="#{personaBean.persona.email}" required="true"
-					requiredMessage="El campo 'Email' es obligatório" />
-			</h:panelGrid>
-
 			<h:panelGrid columns="2">
 				<p:commandButton value="Salvar"
 					actionListener="#{personaBean.salvar()}"
 					update=":message :frmNue:pnlNue :frmPer:tblPer" />
-				<p:commandButton value="Fechar" oncomplete="PF('dlgNue').hide();" />
+				<p:commandButton value="Cerrar" oncomplete="PF('dlgNue').hide();" />
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>

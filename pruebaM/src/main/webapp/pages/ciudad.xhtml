@@ -21,12 +21,8 @@
 			<p:dataTable id="tblCiu" emptyMessage="No se encontraron registros" paginator="true" 
 				value="#{ciudadBean.ciudades}" var="ciudad" rows="5">
 				
-				<p:column headerText="Nombre" filterBy="#{ciudad.nombre}" sortBy="#{ciudad.nombre}">
-					<h:outputText value="#{ciudad.nombre}" />
-				</p:column>
-				
-				<p:column headerText="Estado" filterBy="#{ciudad.estado.nombre}" sortBy="#{ciudad.estado.nombre}">
-					<h:outputText value="#{ciudad.estado.nombre}" />
+				<p:column headerText="Nombre" filterBy="#{ciudad.descripcion}" sortBy="#{ciudad.descripcion}">
+					<h:outputText value="#{ciudad.descripcion}" />
 				</p:column>
 				
 				<p:column headerText="Acciones">
@@ -66,18 +62,10 @@
 		modal="true" >
 		<h:form id="frmnue">
 			<h:panelGrid columns="2" id="pnlnue">
-				<p:outputLabel for="nombre" value="Nombre" />
-				<p:inputText id="nombre" size="30" maxlength="50"  value="#{ciudadBean.ciudad.nombre}"
-					required="true" requiredMessage="El campo nombre es Obligatorio"/>
-				
-				<p:outputLabel for="est" value="Estado" />
-				<p:selectOneMenu id="est" filter="true" value="#{ciudadBean.ciudad.estado}" 
-					converter="omnifaces.SelectItemsConverter" required="true" 
-					requiredMessage="El campo Estado es Obligatorio">
-					<f:selectItem noSelectionOption="true" itemLabel="Selecione un estado" />
-					<f:selectItems value="#{ciudadBean.estados}" var="estado"
-						itemValue="#{estado}" itemLabel="#{estado.nombre} - #{estado.sigla}" />
-				</p:selectOneMenu>
+				<p:outputLabel for="nombre" value="Nombre" />			
+				<p:inputText id="nombre" maxlength="50" size="30"
+					value="#{ciudadBean.ciudad.descripcion}" required="true"
+					requiredMessage="O campo 'Nome' é obrigatório" />
 				
 				<p:commandButton value="Salvar" actionListener="#{ciudadBean.salvar}"
 					update=":frmCiu:tblCiu :frmnue:pnlnue :menssage" />

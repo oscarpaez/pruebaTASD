@@ -103,30 +103,6 @@
 		<groupId>javax.servlet</groupId>
 		<artifactId>javax.servlet-api</artifactId>
 		<version>3.1.0</version>
-	</dependency>
-	
-	<!-- Jersey -->
-	<dependency>
-		<groupId>org.glassfish.jersey.containers</groupId>
-		<artifactId>jersey-container-servlet</artifactId>
-		<version>2.22.1</version>
-	</dependency>
-	
-	<!-- Gson - libreriaJson -->
-	<dependency>
-		<groupId>com.google.code.gson</groupId>
-		<artifactId>gson</artifactId>
-		<version>2.6.1</version>
-	</dependency>
-	
-	<!-- Jasper- Reports -->
-	<dependency>
-		<groupId>net.sf.jasperreports</groupId>
-		<artifactId>jasperreports</artifactId>
-		<version>6.1.1</version>
-	</dependency>
-	
-	
-	
+	</dependency>	
   </dependencies>  
 </project>
